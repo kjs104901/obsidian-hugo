@@ -1,0 +1,19 @@
+{
+  "name": "obsidian-hugo",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "obsidian to hugo converter",
+  "scripts": {
+    "init": "node obsidian_hugo.js init",
+    "build": "node obsidian_hugo.js build",
+    "start": "node obsidian_hugo.js start"
+  },
+  "author": "kjs104901@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "async-lock": "^1.4.1",
+    "chokidar": "^3.6.0",
+    "hugo-extended": "^0.122.0",
+    "toml": "^3.0.0"
+  }
+}

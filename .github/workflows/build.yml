@@ -1,0 +1,27 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "obsidian/**" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build
+    - name: Commit build
+      run: |
+        git config --global user.name 'kjs104901'
+        git config --global user.email 'kjs104901@kjs104901@gmail.com'
+        git commit -am "Hugo build"
+        git push
