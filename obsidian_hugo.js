@@ -85,5 +85,6 @@ async function netlify(options) {
         console.error("convert failed")
         return;
     }
+    await exeHugo(options, []);
     await exeNetlify(options, ["deploy", "--prod"]);
 }
