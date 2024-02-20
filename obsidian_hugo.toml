@@ -2,3 +2,13 @@ obsidianVault = 'obsidian'
 
 hugo = 'hugo'
 hugoContent = 'content'
+hugoPublic = 'public'
+
+unsafeRender = true
+
+imageResize = true
+imageResizeWidthMax = 1000
+imageResizeHeightMax = 600
+
+netlifySite = ''
+netlifyToken = ''

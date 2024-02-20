@@ -128,3 +128,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# npm package lock
+package-lock.json
+
+# netlify
+.netlify/
+
+# backup
+obsidian_hugo_backup.toml
