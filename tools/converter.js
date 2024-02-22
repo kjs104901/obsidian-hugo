@@ -65,7 +65,7 @@ function convert(options, file) {
 
     const ext = path.parse(file).ext.toLowerCase();
 
-    if (ext == ".md") {
+    if (ext === ".md") {
         let sourceStr = fs.readFileSync(source, { encoding: 'utf-8', flag: 'r' });
 
         sourceStr = replaceWikilink(sourceStr, options.obsidianFiles.fileLinks)
@@ -79,11 +79,21 @@ function convert(options, file) {
 
         fs.writeFileSync(target, sourceStr);
     }
-    else if (options.imageResize && imageExtList.includes(ext)) {
-        sharp(source)
-            .resize(options.imageResizeWidthMax, options.imageResizeHeightMax,
-                { fit: "inside" })
-            .toFile(target);
+    else if (imageExtList.includes(ext)) {
+        if (options.imageResize) {
+            const image = sharp(source)
+
+            image.metadata().then((metadata) => {
+                if (metadata.width > options.imageResizeWidthMax || metadata.height > options.imageResizeHeightMax) {
+                    image
+                        .resize(options.imageResizeWidthMax, options.imageResizeHeightMax, { fit: "inside" })
+                        .toFile(target);
+                }
+                else {
+                    fs.copyFileSync(source, target);
+                }
+            })
+        }
     }
     else {
         console.log("ext: " + ext)
@@ -102,10 +112,10 @@ function buildObsidianFiles(obsidianVault) {
 
     result.files = fs.readdirSync(obsidianVault, { recursive: true }).filter(file => {
         const parsed = path.parse(file);
-        if (parsed.dir == ".obsidian" || parsed.dir.startsWith(".obsidian" + path.sep)) {
+        if (parsed.dir === ".obsidian" || parsed.dir.startsWith(".obsidian" + path.sep)) {
             return false;
         }
-        if (parsed.ext == "") {
+        if (parsed.ext === "") {
             return false;
         }
         return true;
@@ -203,7 +213,7 @@ function replaceHighlight(doc) {
 
 function makePageName(doc) {
     const parsed = path.parse(doc);
-    if (parsed.ext == "") {
+    if (parsed.ext === "") {
         return doc.toLowerCase().replace(/ /g, "-");
     }
     return doc;
@@ -224,7 +234,7 @@ function replaceCallout(doc) {
 
 function replaceImageResize(doc) {
     return doc.replace(imageRegex, (token, size, link) => {
-        if (false == /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(link)) {
+        if (false === /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(link)) {
             return token;
         }
 
@@ -252,8 +262,8 @@ function replaceImageResize(doc) {
         const height = heightStr * 1;
 
         if (height > 0) {
-            return `<p><img src="${link}" alt="${name}" width="${width}" height="${height}"></p>`
+            return `\n<p><img src="${link}" alt="${name}" width="${width}" height="${height}"></p>\n`
         }
-        return `<p><img src="${link}" alt="${name}" width="${width}"></p>`
+        return `\n<p><img src="${link}" alt="${name}" width="${width}"></p>\n`
     });
 }

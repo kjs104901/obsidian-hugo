@@ -7,7 +7,8 @@
     "init": "node obsidian_hugo.js init",
     "build": "node obsidian_hugo.js build",
     "start": "node obsidian_hugo.js start",
-    "netlify": "node obsidian_hugo.js netlify"
+    "netlify": "node obsidian_hugo.js netlify",
+    "vercel": "node obsidian_hugo.js vercel"
   },
   "author": "kjs104901@gmail.com",
   "license": "MIT",
@@ -15,8 +16,6 @@
     "async-lock": "^1.4.1",
     "chokidar": "^3.6.0",
     "hugo-extended": "^0.122.0",
-    "netlify": "^13.1.14",
-    "netlify-cli": "^17.16.3",
     "sharp": "^0.33.2",
     "toml": "^3.0.0"
   }

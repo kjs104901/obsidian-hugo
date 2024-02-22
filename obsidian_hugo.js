@@ -6,8 +6,9 @@ import AsyncLock from "async-lock";
 
 import { buildOptions } from "./tools/options.js";
 import { exeHugo } from "./tools/hugo.js";
-import { exeNetlify } from "./tools/netlify.js"
-import { convertFolder, convertFile } from "./tools/converter.js"
+import { convertFolder, convertFile } from "./tools/converter.js";
+import { exeNetlify } from "./tools/netlify.js";
+import { initVercel, exeVercel } from "./tools/vercel.js";
 
 // --------- Main --------- //
 (async () => {
@@ -19,17 +20,20 @@ import { convertFolder, convertFile } from "./tools/converter.js"
     const options = buildOptions();
 
     const action = process.argv[2];
-    if (action == 'init') {
+    if (action === 'init') {
         await init(options);
     }
-    else if (action == 'build') {
+    else if (action === 'build') {
         await build(options);
     }
-    else if (action == 'start') {
+    else if (action === 'start') {
         await start(options);
     }
-    else if (action == 'netlify') {
+    else if (action === 'netlify') {
         await netlify(options);
+    }
+    else if (action === 'vercel') {
+        await vercel(options);
     }
     else {
         console.error("Unknown action: " + action)
@@ -38,7 +42,7 @@ import { convertFolder, convertFile } from "./tools/converter.js"
 
 
 async function init(options) {
-    if (fs.existsSync(path.join(options.hugoPath, "hugo.toml"))) {
+    if (fs.existsSync(join(options.hugoPath, "hugo.toml"))) {
         return;
     }
     await exeHugo(options["new", "site", "."]);
@@ -61,9 +65,9 @@ async function start(options) {
     }
 
     chokidar.watch(options.obsidianVault).on('change', (eventPath, eventStats) => {
-        eventPath = eventPath.replace(options.obsidianVault + path.sep, '');
+        eventPath = eventreplace(options.obsidianVault + sep, '');
 
-        if (eventPath.includes(".obsidian")) {
+        if (eventincludes(".obsidian")) {
             return;
         }
 
@@ -87,4 +91,14 @@ async function netlify(options) {
     }
     await exeHugo(options, []);
     await exeNetlify(options, ["deploy", "--prod"]);
+}
+
+async function vercel(options) {
+    if (!convertFolder(options)) {
+        console.error("convert failed")
+        return;
+    }
+    await exeHugo(options, []);
+    initVercel(options);
+    await exeVercel(options, ["--prod"]);
 }

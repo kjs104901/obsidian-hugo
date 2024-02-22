@@ -32,5 +32,9 @@ export function buildOptions() {
     options.netlifySite = config["netlifySite"];
     options.netlifyToken = config["netlifyToken"];
 
+    options.vercelOrg = config["vercelOrg"];
+    options.vercelProjectId = config["vercelProjectId"];
+    options.vercelToken = config["vercelToken"];
+
     return options;
 }

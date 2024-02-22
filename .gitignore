@@ -122,6 +122,8 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+.idea/
+
 # yarn v2
 .yarn/cache
 .yarn/unplugged
@@ -133,7 +135,10 @@ dist
 package-lock.json
 
 # netlify
-.netlify/
+**/.netlify/
+
+# vercel
+**/.vercel/
 
 # backup
 obsidian_hugo_backup.toml

@@ -10,7 +10,7 @@ export async function exeNetlify(options, params) {
     params.push("--dir");
     params.push(options.hugoPublic);
 
-    const netlifySpawn = spawn('cmd', ["/c", "netlify"].concat(params));
+    const netlifySpawn = spawn("netlify", params, { shell: true });
 
     netlifySpawn.stdout.on('data', (data) => {
         console.log(data.toString());
