@@ -65,9 +65,9 @@ async function start(options) {
     }
 
     chokidar.watch(options.obsidianVault).on('change', (eventPath, eventStats) => {
-        eventPath = eventreplace(options.obsidianVault + sep, '');
+        eventPath = eventPath.replace(options.obsidianVault + path.sep, '');
 
-        if (eventincludes(".obsidian")) {
+        if (eventPath.includes(".obsidian")) {
             return;
         }
 

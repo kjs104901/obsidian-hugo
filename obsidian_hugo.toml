@@ -12,3 +12,7 @@ imageResizeHeightMax = 600
 
 netlifySite = ''
 netlifyToken = ''
+
+vercelOrg = ''
+vercelProjectId = ''
+vercelToken = ''
